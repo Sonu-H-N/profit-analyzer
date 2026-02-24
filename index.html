@@ -4,33 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Profit Calculator</title>
+
     <link rel="stylesheet" href="style.css">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
 <div class="app">
+
     <div class="card">
 
-        <h1>💰 Profit Dashboard</h1>
-        <p class="subtitle">Income vs Expense Analyzer</p>
-
-        <div class="input-group">
-            <label>Income</label>
-            <input type="number" id="income" placeholder="Enter total income">
+        <div class="header">
+            <h1><i class="fa-solid fa-chart-line"></i> Profit Dashboard</h1>
+            <button id="themeToggle"><i class="fa-solid fa-moon"></i></button>
         </div>
 
         <div class="input-group">
-            <label>Expenses</label>
-            <input type="number" id="expense" placeholder="Enter total expenses">
+            <label><i class="fa-solid fa-money-bill"></i> Income</label>
+            <input type="number" id="income" placeholder="Enter income">
         </div>
 
-        <button onclick="calculate()">Calculate Profit</button>
-
-        <div class="result" id="result">
-            Results will appear here...
+        <div class="input-group">
+            <label><i class="fa-solid fa-receipt"></i> Expenses</label>
+            <input type="number" id="expense" placeholder="Enter expenses">
         </div>
+
+        <button class="calc-btn" onclick="calculate()">
+            <i class="fa-solid fa-calculator"></i> Calculate
+        </button>
+
+        <div class="loader" id="loader"></div>
+
+        <div class="result" id="result"></div>
 
     </div>
+
 </div>
 
 <script src="script.js"></script>

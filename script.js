@@ -1,37 +1,42 @@
+const toggleBtn = document.getElementById("themeToggle");
+
+toggleBtn.onclick = () => {
+    document.body.classList.toggle("dark");
+};
+
 function calculate() {
 
     let income = parseFloat(document.getElementById("income").value);
     let expense = parseFloat(document.getElementById("expense").value);
     let resultDiv = document.getElementById("result");
+    let loader = document.getElementById("loader");
 
     if (isNaN(income) || isNaN(expense)) {
-        resultDiv.innerHTML = "⚠️ Please enter valid numbers";
+        resultDiv.innerHTML = "⚠️ Enter valid numbers";
         return;
     }
 
-    let profit = income - expense;
-    let percentage = (profit / expense) * 100;
-    let average = expense / 30;
+    loader.style.display = "block";
+    resultDiv.innerHTML = "";
 
-    let previousExpense = localStorage.getItem("lastExpense");
-    let comparison = "";
+    setTimeout(() => {
 
-    if (previousExpense !== null) {
-        let diff = expense - previousExpense;
-        comparison = diff > 0 
-            ? `📈 Expenses increased by ₹${diff.toFixed(2)}`
-            : `📉 Expenses decreased by ₹${Math.abs(diff).toFixed(2)}`;
-    }
+        loader.style.display = "none";
 
-    localStorage.setItem("lastExpense", expense);
+        let profit = income - expense;
+        let percentage = (profit / expense) * 100;
+        let average = expense / 30;
 
-    let status = profit >= 0 ? "✅ Profit" : "❌ Loss";
+        let status = profit >= 0 ? "Profit" : "Loss";
 
-    resultDiv.innerHTML = `
-        <h3>${status}</h3>
-        <p>Amount: ₹${profit.toFixed(2)}</p>
-        <p>Percentage: ${percentage.toFixed(2)}%</p>
-        <p>Avg Daily Expense: ₹${average.toFixed(2)}</p>
-        <p>${comparison}</p>
-    `;
+        resultDiv.className = "result " + (profit >= 0 ? "profit" : "loss");
+
+        resultDiv.innerHTML = `
+            <h3>${status}</h3>
+            <p>Amount: ₹${profit.toFixed(2)}</p>
+            <p>Percentage: ${percentage.toFixed(2)}%</p>
+            <p>Avg Daily Expense: ₹${average.toFixed(2)}</p>
+        `;
+
+    }, 800);
 }
