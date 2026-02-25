@@ -104,6 +104,7 @@ function createMonthlyChart() {
 /* ================= HISTORY ================= */
 
 function saveHistory(income, expense, profit) {
+    updateSummary();
     createMonthlyChart();
     let data = JSON.parse(localStorage.getItem("financeData")) || [];
 
@@ -157,3 +158,25 @@ function deleteRow(index) {
 
 loadHistory();
 createMonthlyChart();
+function updateSummary() {
+
+    let data = JSON.parse(localStorage.getItem("financeData")) || [];
+
+    let totalIncome = 0;
+    let totalExpense = 0;
+    let totalProfit = 0;
+
+    data.forEach(item => {
+        totalIncome += item.income;
+        totalExpense += item.expense;
+        totalProfit += item.profit;
+    });
+
+    let avgProfit = data.length ? totalProfit / data.length : 0;
+
+    document.getElementById("totalIncome").innerText = "₹" + totalIncome.toFixed(2);
+    document.getElementById("totalExpense").innerText = "₹" + totalExpense.toFixed(2);
+    document.getElementById("totalProfit").innerText = "₹" + totalProfit.toFixed(2);
+    document.getElementById("avgProfit").innerText = "₹" + avgProfit.toFixed(2);
+}
+updateSummary();
