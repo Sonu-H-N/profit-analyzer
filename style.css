@@ -121,3 +121,6 @@ input {
         padding: 20px;
     }
 }
+canvas {
+    margin-top: 20px;
+}

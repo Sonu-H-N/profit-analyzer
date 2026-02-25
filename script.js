@@ -4,6 +4,8 @@ toggleBtn.onclick = () => {
     document.body.classList.toggle("dark");
 };
 
+let chart; // global chart variable
+
 function calculate() {
 
     let income = parseFloat(document.getElementById("income").value);
@@ -27,16 +29,49 @@ function calculate() {
         let percentage = (profit / expense) * 100;
         let average = expense / 30;
 
-        let status = profit >= 0 ? "Profit" : "Loss";
-
         resultDiv.className = "result " + (profit >= 0 ? "profit" : "loss");
 
         resultDiv.innerHTML = `
-            <h3>${status}</h3>
+            <h3>${profit >= 0 ? "Profit ✅" : "Loss ❌"}</h3>
             <p>Amount: ₹${profit.toFixed(2)}</p>
             <p>Percentage: ${percentage.toFixed(2)}%</p>
             <p>Avg Daily Expense: ₹${average.toFixed(2)}</p>
         `;
 
+        createChart(income, expense, profit);
+
     }, 800);
+}
+
+function createChart(income, expense, profit) {
+
+    const ctx = document.getElementById("profitChart");
+
+    if (chart) {
+        chart.destroy();
+    }
+
+    chart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: ["Income", "Expense", "Profit"],
+            datasets: [{
+                label: "Financial Overview",
+                data: [income, expense, profit],
+                backgroundColor: [
+                    "#4CAF50",
+                    "#FF9800",
+                    "#2196F3"
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
 }
