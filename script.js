@@ -4,7 +4,7 @@ toggleBtn.onclick = () => {
     document.body.classList.toggle("dark");
 };
 
-let chart; // global chart variable
+let chart;
 
 function calculate() {
 
@@ -39,6 +39,7 @@ function calculate() {
         `;
 
         createChart(income, expense, profit);
+        saveHistory(income, expense, profit);
 
     }, 800);
 }
@@ -47,31 +48,75 @@ function createChart(income, expense, profit) {
 
     const ctx = document.getElementById("profitChart");
 
-    if (chart) {
-        chart.destroy();
-    }
+    if (chart) chart.destroy();
 
     chart = new Chart(ctx, {
         type: "bar",
         data: {
             labels: ["Income", "Expense", "Profit"],
             datasets: [{
-                label: "Financial Overview",
                 data: [income, expense, profit],
-                backgroundColor: [
-                    "#4CAF50",
-                    "#FF9800",
-                    "#2196F3"
-                ]
+                backgroundColor: ["#4CAF50", "#FF9800", "#2196F3"]
             }]
         },
         options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
+            plugins: { legend: { display: false } }
         }
     });
 }
+
+/* ================= HISTORY ================= */
+
+function saveHistory(income, expense, profit) {
+
+    let data = JSON.parse(localStorage.getItem("financeData")) || [];
+
+    let entry = {
+        date: new Date().toLocaleDateString(),
+        income,
+        expense,
+        profit
+    };
+
+    data.push(entry);
+
+    localStorage.setItem("financeData", JSON.stringify(data));
+
+    loadHistory();
+}
+
+function loadHistory() {
+
+    let tableBody = document.querySelector("#historyTable tbody");
+    tableBody.innerHTML = "";
+
+    let data = JSON.parse(localStorage.getItem("financeData")) || [];
+
+    data.forEach((item, index) => {
+
+        let row = `
+            <tr>
+                <td>${item.date}</td>
+                <td>₹${item.income}</td>
+                <td>₹${item.expense}</td>
+                <td>₹${item.profit}</td>
+                <td><button onclick="deleteRow(${index})">X</button></td>
+            </tr>
+        `;
+
+        tableBody.innerHTML += row;
+    });
+}
+
+function deleteRow(index) {
+
+    let data = JSON.parse(localStorage.getItem("financeData")) || [];
+
+    data.splice(index, 1);
+
+    localStorage.setItem("financeData", JSON.stringify(data));
+
+    loadHistory();
+}
+
+loadHistory();
