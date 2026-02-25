@@ -64,11 +64,47 @@ function createChart(income, expense, profit) {
         }
     });
 }
+let monthlyChart;
+
+function createMonthlyChart() {
+
+    let data = JSON.parse(localStorage.getItem("financeData")) || [];
+
+    let labels = [];
+    let profits = [];
+
+    data.forEach(item => {
+        labels.push(item.date);
+        profits.push(item.profit);
+    });
+
+    const ctx = document.getElementById("monthlyChart");
+
+    if (monthlyChart) monthlyChart.destroy();
+
+    monthlyChart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Profit Trend",
+                data: profits,
+                borderColor: "#00e5ff",
+                backgroundColor: "rgba(0,229,255,0.2)",
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+}
 
 /* ================= HISTORY ================= */
 
 function saveHistory(income, expense, profit) {
-
+    createMonthlyChart();
     let data = JSON.parse(localStorage.getItem("financeData")) || [];
 
     let entry = {
@@ -120,3 +156,4 @@ function deleteRow(index) {
 }
 
 loadHistory();
+createMonthlyChart();

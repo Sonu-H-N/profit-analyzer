@@ -25,3 +25,6 @@ td button {
     background: #ff5252;
     color: white;
 }
+#monthlyChart {
+    margin-top: 20px;
+}
