@@ -180,3 +180,42 @@ function updateSummary() {
     document.getElementById("avgProfit").innerText = "₹" + avgProfit.toFixed(2);
 }
 updateSummary();
+async function downloadPDF() {
+
+    const { jsPDF } = window.jspdf;
+
+    let data = JSON.parse(localStorage.getItem("financeData")) || [];
+
+    if (data.length === 0) {
+        alert("No data available");
+        return;
+    }
+
+    let doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Finance Report", 20, 20);
+
+    doc.setFontSize(12);
+
+    let y = 40;
+
+    data.forEach((item, index) => {
+
+        doc.text(
+            `${index + 1}. Date: ${item.date} | Income: ₹${item.income} | Expense: ₹${item.expense} | Profit: ₹${item.profit}`,
+            20,
+            y
+        );
+
+        y += 10;
+
+        if (y > 280) {
+            doc.addPage();
+            y = 20;
+        }
+
+    });
+
+    doc.save("Finance_Report.pdf");
+}
