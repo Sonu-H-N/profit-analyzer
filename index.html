@@ -65,12 +65,16 @@
         </div>
 
         <button class="calc-btn" onclick="calculate()">Calculate</button>
+        <div class="input-group">
+    <label>Monthly Budget</label>
+    <input type="number" id="budget" placeholder="Enter monthly budget">
+</div>
         <button class="calc-btn" onclick="downloadPDF()">
     <i class="fa-solid fa-download"></i> Download Report
 </button>
 
         <div class="loader" id="loader"></div>
-
+        <div id="budgetAlert" class="alert-box"></div>
         <div class="result" id="result"></div>
 
         <!-- Chart -->

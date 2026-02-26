@@ -266,3 +266,32 @@ function createCategoryChart() {
     });
 }
 createCategoryChart();
+function checkBudget(expense) {
+
+    let budget = parseFloat(document.getElementById("budget").value);
+    let alertBox = document.getElementById("budgetAlert");
+
+    if (isNaN(budget)) {
+        alertBox.innerHTML = "";
+        return;
+    }
+
+    localStorage.setItem("monthlyBudget", budget);
+
+    if (expense > budget) {
+
+        alertBox.className = "alert-box alert-danger";
+        alertBox.innerHTML = "⚠️ Budget exceeded! Control your spending.";
+
+    } else {
+
+        alertBox.className = "alert-box alert-safe";
+        alertBox.innerHTML = "✅ You are within budget.";
+
+    }
+}
+let savedBudget = localStorage.getItem("monthlyBudget");
+
+if (savedBudget) {
+    document.getElementById("budget").value = savedBudget;
+}
