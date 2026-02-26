@@ -295,3 +295,6 @@ let savedBudget = localStorage.getItem("monthlyBudget");
 if (savedBudget) {
     document.getElementById("budget").value = savedBudget;
 }
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+}
