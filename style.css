@@ -1,92 +1,202 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: white;
+}
+
+/* App Container */
+
+.app {
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Main Card */
+
+.card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(25px);
+    border-radius: 25px;
+    padding: 25px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    animation: fadeIn 0.6s ease;
+}
+
+/* Header */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* Inputs */
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    margin-top: 5px;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    outline: none;
+}
+
+input::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+/* Buttons */
+
+.calc-btn {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(45deg, #00f5a0, #00d9f5);
+    color: black;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.calc-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* Result */
+
+.result {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.12);
+}
+
+.profit {
+    border-left: 5px solid #00e676;
+}
+
+.loss {
+    border-left: 5px solid #ff5252;
+}
+
+/* Summary Cards */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.card-box {
+    padding: 15px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.12);
+    text-align: center;
+    transition: 0.3s;
+}
+
+.card-box:hover {
+    transform: translateY(-3px);
+}
+
+.card-box p {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+/* Alerts */
+
+.alert-box {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.alert-safe {
+    background: rgba(0, 200, 83, 0.25);
+}
+
+.alert-danger {
+    background: rgba(255, 82, 82, 0.25);
+}
+
+/* Table */
+
 table {
     width: 100%;
     margin-top: 15px;
     border-collapse: collapse;
-    background: rgba(255,255,255,0.1);
-    border-radius: 10px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
     overflow: hidden;
 }
 
 th, td {
     padding: 8px;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 th {
-    background: rgba(0,0,0,0.2);
+    background: rgba(255,255,255,0.15);
 }
 
 td button {
-    padding: 5px 8px;
+    padding: 4px 8px;
     border: none;
     border-radius: 6px;
-    cursor: pointer;
     background: #ff5252;
     color: white;
+    cursor: pointer;
 }
-#monthlyChart {
+
+/* Charts */
+
+canvas {
     margin-top: 20px;
 }
-.summary {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
+
+/* Animation */
+
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
 }
 
-.card-box {
-    padding: 12px;
-    border-radius: 12px;
-    text-align: center;
-    color: white;
-    font-size: 14px;
-}
+/* Mobile */
 
-.card-box p {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 5px;
-}
-
-.income {
-    background: rgba(76, 175, 80, 0.4);
-}
-
-.expense {
-    background: rgba(255, 152, 0, 0.4);
-}
-
-.profit {
-    background: rgba(33, 150, 243, 0.4);
-}
-
-.avg {
-    background: rgba(156, 39, 176, 0.4);
-}
-select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    margin-top: 5px;
-}
-
-#categoryChart {
-    .alert-box {
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    font-weight: bold;
-    text-align: center;
-}
-
-.alert-safe {
-    background: rgba(76, 175, 80, 0.3);
-}
-
-.alert-danger {
-    background: rgba(255, 82, 82, 0.3);
-}
-    margin-top: 20px;
+@media (max-width: 500px) {
+    .card {
+        padding: 20px;
+    }
 }
