@@ -29,6 +29,16 @@
     </div>
 
     <div class="card-box expense">
+        <div class="input-group">
+    <label>Category</label>
+    <select id="category">
+        <option value="Food">Food</option>
+        <option value="Travel">Travel</option>
+        <option value="Rent">Rent</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
         <h3>Total Expense</h3>
         <p id="totalExpense">₹0</p>
     </div>
@@ -70,6 +80,8 @@
 <table id="historyTable">
     <h2>📈 Monthly Profit Trend</h2>
 <canvas id="monthlyChart"></canvas>
+<h2>🥧 Expense Categories</h2>
+<canvas id="categoryChart"></canvas>
     <thead>
         <tr>
             <th>Date</th>

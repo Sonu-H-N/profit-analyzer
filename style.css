@@ -64,3 +64,14 @@ td button {
 .avg {
     background: rgba(156, 39, 176, 0.4);
 }
+select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 5px;
+}
+
+#categoryChart {
+    margin-top: 20px;
+}

@@ -106,14 +106,18 @@ function createMonthlyChart() {
 function saveHistory(income, expense, profit) {
     updateSummary();
     createMonthlyChart();
+    createCategoryChart();
     let data = JSON.parse(localStorage.getItem("financeData")) || [];
 
-    let entry = {
-        date: new Date().toLocaleDateString(),
-        income,
-        expense,
-        profit
-    };
+    let category = document.getElementById("category").value;
+
+let entry = {
+    date: new Date().toLocaleDateString(),
+    income,
+    expense,
+    profit,
+    category
+};
 
     data.push(entry);
 
@@ -219,3 +223,46 @@ async function downloadPDF() {
 
     doc.save("Finance_Report.pdf");
 }
+let categoryChart;
+
+function createCategoryChart() {
+
+    let data = JSON.parse(localStorage.getItem("financeData")) || [];
+
+    let categoryTotals = {};
+
+    data.forEach(item => {
+
+        if (!categoryTotals[item.category]) {
+            categoryTotals[item.category] = 0;
+        }
+
+        categoryTotals[item.category] += Number(item.expense);
+
+    });
+
+    let labels = Object.keys(categoryTotals);
+    let values = Object.values(categoryTotals);
+
+    const ctx = document.getElementById("categoryChart");
+
+    if (categoryChart) categoryChart.destroy();
+
+    categoryChart = new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: labels,
+            datasets: [{
+                data: values,
+                backgroundColor: [
+                    "#ff6384",
+                    "#36a2eb",
+                    "#ffce56",
+                    "#4caf50",
+                    "#9c27b0"
+                ]
+            }]
+        }
+    });
+}
+createCategoryChart();
