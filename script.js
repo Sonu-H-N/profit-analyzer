@@ -333,3 +333,27 @@ if ("serviceWorker" in navigator) {
     });
 
 }
+function updateSummary() {
+
+let data = JSON.parse(localStorage.getItem("financeData")) || []
+
+let totalIncome = 0
+let totalExpense = 0
+let totalProfit = 0
+
+data.forEach(item => {
+
+totalIncome += item.income
+totalExpense += item.expense
+totalProfit += item.profit
+
+})
+
+let avgProfit = data.length ? totalProfit / data.length : 0
+
+animateValue("totalIncome", 0, Math.round(totalIncome), 800)
+animateValue("totalExpense", 0, Math.round(totalExpense), 800)
+animateValue("totalProfit", 0, Math.round(totalProfit), 800)
+animateValue("avgProfit", 0, Math.round(avgProfit), 800)
+
+}
