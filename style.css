@@ -200,3 +200,15 @@ canvas {
         padding: 20px;
     }
 }
+.filter-box {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.filter-box input,
+.filter-box select {
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+}

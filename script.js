@@ -297,4 +297,39 @@ if (savedBudget) {
 }
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js");
+}function filterHistory() {
+
+    let searchText = document.getElementById("searchInput").value.toLowerCase();
+    let category = document.getElementById("filterCategory").value;
+
+    let data = JSON.parse(localStorage.getItem("financeData")) || [];
+
+    let tableBody = document.querySelector("#historyTable tbody");
+
+    tableBody.innerHTML = "";
+
+    data.forEach((item, index) => {
+
+        let matchesSearch = item.category.toLowerCase().includes(searchText);
+        let matchesCategory = category === "all" || item.category === category;
+
+        if (matchesSearch && matchesCategory) {
+
+            let row = `
+            <tr>
+                <td>${item.date}</td>
+                <td>₹${item.income}</td>
+                <td>₹${item.expense}</td>
+                <td>₹${item.profit}</td>
+                <td>${item.category}</td>
+                <td><button onclick="deleteRow(${index})">X</button></td>
+            </tr>
+            `;
+
+            tableBody.innerHTML += row;
+
+        }
+
+    });
+
 }
