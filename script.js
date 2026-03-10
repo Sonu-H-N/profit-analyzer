@@ -162,6 +162,7 @@ function deleteRow(index) {
 
 loadHistory();
 createMonthlyChart();
+generateInsights()
 function updateSummary() {
 
     let data = JSON.parse(localStorage.getItem("financeData")) || [];
@@ -355,5 +356,46 @@ animateValue("totalIncome", 0, Math.round(totalIncome), 800)
 animateValue("totalExpense", 0, Math.round(totalExpense), 800)
 animateValue("totalProfit", 0, Math.round(totalProfit), 800)
 animateValue("avgProfit", 0, Math.round(avgProfit), 800)
+
+}
+function generateInsights(){
+
+let data = JSON.parse(localStorage.getItem("financeData")) || []
+
+let categoryTotals = {}
+
+data.forEach(item => {
+
+if(!categoryTotals[item.category]){
+categoryTotals[item.category] = 0
+}
+
+categoryTotals[item.category] += Number(item.expense)
+
+})
+
+let highestCategory = ""
+let highestAmount = 0
+
+for(let cat in categoryTotals){
+
+if(categoryTotals[cat] > highestAmount){
+highestAmount = categoryTotals[cat]
+highestCategory = cat
+}
+
+}
+
+let insightBox = document.getElementById("insightBox")
+
+if(highestCategory){
+
+insightBox.innerHTML = `
+⚠ Highest spending category: <b>${highestCategory}</b><br>
+💰 Amount spent: ₹${highestAmount}<br>
+💡 Tip: Try reducing ${highestCategory} expenses to increase savings.
+`
+
+}
 
 }
