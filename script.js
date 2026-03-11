@@ -105,6 +105,7 @@ function createMonthlyChart() {
 
 function saveHistory(income, expense, profit) {
     updateSummary();
+    updateGoal()
     createMonthlyChart();
     createCategoryChart();
     let data = JSON.parse(localStorage.getItem("financeData")) || [];
@@ -415,5 +416,40 @@ let workbook = XLSX.utils.book_new()
 XLSX.utils.book_append_sheet(workbook, worksheet, "Finance Data")
 
 XLSX.writeFile(workbook, "Finance_Report.xlsx")
+
+}
+function setGoal(){
+
+let goal = document.getElementById("goalInput").value
+
+localStorage.setItem("savingGoal", goal)
+
+updateGoal()
+
+}
+function updateGoal(){
+
+let data = JSON.parse(localStorage.getItem("financeData")) || []
+
+let totalProfit = 0
+
+data.forEach(item => {
+
+totalProfit += item.profit
+
+})
+
+let goal = localStorage.getItem("savingGoal")
+
+if(!goal) return
+
+let percent = (totalProfit / goal) * 100
+
+percent = Math.min(percent,100)
+
+document.getElementById("goalProgress").style.width = percent + "%"
+
+document.getElementById("goalText").innerText =
+"Progress: " + percent.toFixed(1) + "%"
 
 }
