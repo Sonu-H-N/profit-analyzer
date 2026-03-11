@@ -137,14 +137,18 @@ function loadHistory() {
     data.forEach((item, index) => {
 
         let row = `
-            <tr>
-                <td>${item.date}</td>
-                <td>₹${item.income}</td>
-                <td>₹${item.expense}</td>
-                <td>₹${item.profit}</td>
-                <td><button onclick="deleteRow(${index})">X</button></td>
-            </tr>
-        `;
+<tr>
+<td>${item.date}</td>
+<td>₹${item.income}</td>
+<td>₹${item.expense}</td>
+<td>₹${item.profit}</td>
+<td>${item.category}</td>
+<td>
+<button onclick="editRow(${index})">✏</button>
+<button onclick="deleteRow(${index})">❌</button>
+</td>
+</tr>
+`
 
         tableBody.innerHTML += row;
     });
@@ -451,5 +455,18 @@ document.getElementById("goalProgress").style.width = percent + "%"
 
 document.getElementById("goalText").innerText =
 "Progress: " + percent.toFixed(1) + "%"
+
+}
+function editRow(index){
+
+let data = JSON.parse(localStorage.getItem("financeData")) || []
+
+let item = data[index]
+
+document.getElementById("income").value = item.income
+document.getElementById("expense").value = item.expense
+document.getElementById("category").value = item.category
+
+deleteRow(index)
 
 }

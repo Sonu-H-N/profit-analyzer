@@ -242,3 +242,20 @@ background:#00e676;
 border-radius:10px;
 transition:0.5s;
 }
+td button{
+margin:2px;
+padding:4px 8px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+td button:first-child{
+background:#00c853;
+color:white;
+}
+
+td button:last-child{
+background:#ff5252;
+color:white;
+}
