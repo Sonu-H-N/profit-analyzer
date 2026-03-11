@@ -399,3 +399,21 @@ insightBox.innerHTML = `
 }
 
 }
+function exportExcel(){
+
+let data = JSON.parse(localStorage.getItem("financeData")) || []
+
+if(data.length === 0){
+alert("No data available")
+return
+}
+
+let worksheet = XLSX.utils.json_to_sheet(data)
+
+let workbook = XLSX.utils.book_new()
+
+XLSX.utils.book_append_sheet(workbook, worksheet, "Finance Data")
+
+XLSX.writeFile(workbook, "Finance_Report.xlsx")
+
+}
