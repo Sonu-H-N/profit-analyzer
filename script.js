@@ -166,6 +166,7 @@ function deleteRow(index) {
 }
 
 loadHistory();
+generateCalendar()
 createMonthlyChart();
 generateInsights()
 function updateSummary() {
@@ -470,3 +471,61 @@ document.getElementById("category").value = item.category
 deleteRow(index)
 
 }
+function generateCalendar(){
+
+let data = JSON.parse(localStorage.getItem("financeData")) || []
+
+let calendar = document.getElementById("calendar")
+
+calendar.innerHTML = ""
+
+let dailyTotals = {}
+
+// Collect daily expenses
+data.forEach(item => {
+
+let date = item.date
+let expense = Number(item.expense)
+
+if(!dailyTotals[date]){
+dailyTotals[date] = 0
+}
+
+dailyTotals[date] += expense
+
+})
+
+// Generate last 30 days
+for(let i = 1; i <= 30; i++){
+
+let dayBox = document.createElement("div")
+dayBox.classList.add("day")
+
+let dateKey = new Date()
+dateKey.setDate(dateKey.getDate() - (30 - i))
+
+let formatted = dateKey.toLocaleDateString()
+
+let value = dailyTotals[formatted] || 0
+
+dayBox.innerHTML = `
+${dateKey.getDate()}<br>₹${value}
+`
+
+// Apply color levels
+if(value > 3000){
+dayBox.classList.add("high")
+}
+else if(value > 1000){
+dayBox.classList.add("medium")
+}
+else if(value > 0){
+dayBox.classList.add("low")
+}
+
+calendar.appendChild(dayBox)
+
+}
+
+}
+generateCalendar()

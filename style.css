@@ -259,3 +259,22 @@ td button:last-child{
 background:#ff5252;
 color:white;
 }
+.calendar{
+display:grid;
+grid-template-columns: repeat(7, 1fr);
+gap:5px;
+margin-top:15px;
+}
+
+.day{
+padding:10px;
+text-align:center;
+border-radius:8px;
+font-size:12px;
+background:rgba(255,255,255,0.1);
+}
+
+/* Heat Levels */
+.low{ background:#4caf50; }
+.medium{ background:#ff9800; }
+.high{ background:#f44336; }
