@@ -274,6 +274,7 @@ function createCategoryChart() {
 }
 createCategoryChart();
 function checkBudget(expense) {
+    showNotification("⚠ Budget exceeded!")
 
     let budget = parseFloat(document.getElementById("budget").value);
     let alertBox = document.getElementById("budgetAlert");
@@ -365,6 +366,7 @@ animateValue("avgProfit", 0, Math.round(avgProfit), 800)
 
 }
 function generateInsights(){
+    showNotification("💡 High spending on " + highestCategory)
 
 let data = JSON.parse(localStorage.getItem("financeData")) || []
 
@@ -434,6 +436,9 @@ updateGoal()
 }
 function updateGoal(){
 
+    if(percent >= 100){
+showNotification("🎯 Goal achieved!")
+}
 let data = JSON.parse(localStorage.getItem("financeData")) || []
 
 let totalProfit = 0

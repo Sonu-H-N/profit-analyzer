@@ -278,3 +278,21 @@ background:rgba(255,255,255,0.1);
 .low{ background:#4caf50; }
 .medium{ background:#ff9800; }
 .high{ background:#f44336; }
+.notification{
+position: fixed;
+top: 20px;
+right: 20px;
+background: #333;
+color: white;
+padding: 12px 18px;
+border-radius: 10px;
+opacity: 0;
+transform: translateY(-20px);
+transition: 0.4s;
+z-index: 1000;
+}
+
+.notification.show{
+opacity: 1;
+transform: translateY(0);
+}
