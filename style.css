@@ -296,3 +296,36 @@ z-index: 1000;
 opacity: 1;
 transform: translateY(0);
 }
+/* LIGHT MODE (default) */
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: white;
+}
+
+/* DARK MODE */
+body.dark {
+    background: #0a0a0a;
+    color: #ffffff;
+}
+
+/* Card */
+body.dark .card {
+    background: rgba(0,0,0,0.6);
+}
+
+/* Inputs */
+body.dark input,
+body.dark select {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+/* Table */
+body.dark table {
+    background: rgba(255,255,255,0.05);
+}
+
+/* Buttons */
+body.dark .calc-btn {
+    background: linear-gradient(45deg, #00e676, #00c853);
+}
