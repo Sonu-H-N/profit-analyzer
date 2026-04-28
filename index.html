@@ -1,78 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profit Dashboard</title>
 
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 </head>
+
 <body>
-<div id="insightBox" class="insight-box">
-💡 Financial insights will appear here
-</div>
+
+<div id="notification" class="notification"></div>
+
 <div class="app">
-    <div id="notification" class="notification"></div>
+<div class="card">
 
-    <div class="card">
-
-        <div class="header">
-            <h1><i class="fa-solid fa-chart-line"></i> Profit Dashboard</h1>
-            <button id="themeToggle"><i class="fa-solid fa-moon"></i></button>
-        </div>
-         <div class="summary">
-            <div class="summary">
-                <div class="goal-box">
-
-<h3>🎯 Savings Goal</h3>
-
-<input type="number" id="goalInput" placeholder="Enter savings goal">
-
-<button onclick="setGoal()" class="calc-btn">Set Goal</button>
-
-<div class="progress-container">
-<div id="goalProgress" class="progress-bar"></div>
+<!-- HEADER -->
+<div class="header">
+    <h1><i class="fa-solid fa-chart-line"></i> Profit Dashboard</h1>
+    <button id="themeToggle"><i class="fa-solid fa-moon"></i></button>
 </div>
 
-<p id="goalText">Progress: 0%</p>
-
-</div>
+<!-- SUMMARY -->
+<div class="summary">
 
 <div class="card-box income">
-<h3>Total Income</h3>
-<p id="totalIncome">₹0</p>
+    <h3>Total Income</h3>
+    <p id="totalIncome">₹0</p>
 </div>
 
 <div class="card-box expense">
-<h3>Total Expense</h3>
-<p id="totalExpense">₹0</p>
+    <h3>Total Expense</h3>
+    <p id="totalExpense">₹0</p>
 </div>
 
 <div class="card-box profit">
-<h3>Total Profit</h3>
-<p id="totalProfit">₹0</p>
+    <h3>Total Profit</h3>
+    <p id="totalProfit">₹0</p>
 </div>
 
 <div class="card-box avg">
-<h3>Avg Profit</h3>
-<p id="avgProfit">₹0</p>
+    <h3>Avg Profit</h3>
+    <p id="avgProfit">₹0</p>
 </div>
 
 </div>
 
-    <div class="card-box income">
-        <h3>Total Income</h3>
-        <p id="totalIncome">₹0</p>
+<!-- GOAL -->
+<div class="goal-box">
+    <h3>🎯 Savings Goal</h3>
+    <input type="number" id="goalInput" placeholder="Enter savings goal">
+    <button onclick="setGoal()" class="calc-btn">Set Goal</button>
+
+    <div class="progress-container">
+        <div id="goalProgress" class="progress-bar"></div>
     </div>
 
-    <div class="card-box expense">
-        <div class="input-group">
+    <p id="goalText">Progress: 0%</p>
+</div>
+
+<!-- INPUTS -->
+<div class="input-group">
+    <label>Income</label>
+    <input type="number" id="income" placeholder="Enter income">
+</div>
+
+<div class="input-group">
+    <label>Expenses</label>
+    <input type="number" id="expense" placeholder="Enter expenses">
+</div>
+
+<div class="input-group">
     <label>Category</label>
     <select id="category">
         <option value="Food">Food</option>
@@ -82,54 +85,48 @@
         <option value="Other">Other</option>
     </select>
 </div>
-        <h3>Total Expense</h3>
-        <p id="totalExpense">₹0</p>
-    </div>
 
-    <div class="card-box profit">
-        <h3>Total Profit</h3>
-        <p id="totalProfit">₹0</p>
-    </div>
-
-    <div class="card-box avg">
-        <h3>Avg Profit</h3>
-        <p id="avgProfit">₹0</p>
-    </div>
-
-</div>
-        <div class="input-group">
-            <label>Income</label>
-            <input type="number" id="income" placeholder="Enter income">
-        </div>
-
-        <div class="input-group">
-            <label>Expenses</label>
-            <input type="number" id="expense" placeholder="Enter expenses">
-        </div>
-
-        <button class="calc-btn" onclick="calculate()">Calculate</button>
-        <div class="input-group">
+<div class="input-group">
     <label>Monthly Budget</label>
     <input type="number" id="budget" placeholder="Enter monthly budget">
 </div>
-        <button class="calc-btn" onclick="downloadPDF()">
-    <i class="fa-solid fa-download"></i> Download Report
+
+<button class="calc-btn" onclick="calculate()">Calculate</button>
+
+<button class="calc-btn" onclick="downloadPDF()">
+    <i class="fa-solid fa-download"></i> Download PDF
 </button>
 
-        <div class="loader" id="loader"></div>
-        <div id="budgetAlert" class="alert-box"></div>
-        <div class="result" id="result"></div>
+<button onclick="exportExcel()" class="calc-btn">
+    Download Excel
+</button>
 
-        <!-- Chart -->
-        <canvas id="profitChart"></canvas>
-        <h2>📜 History</h2>
-        <h2>📅 Monthly Spending Calendar</h2>
+<!-- RESULT -->
+<div class="loader" id="loader"></div>
+<div id="budgetAlert" class="alert-box"></div>
+<div class="result" id="result"></div>
+
+<!-- INSIGHTS -->
+<div id="insightBox" class="insight-box">
+💡 Financial insights will appear here
+</div>
+
+<!-- CHARTS -->
+<canvas id="profitChart"></canvas>
+
+<h2>📈 Monthly Profit Trend</h2>
+<canvas id="monthlyChart"></canvas>
+
+<h2>🥧 Expense Categories</h2>
+<canvas id="categoryChart"></canvas>
+
+<!-- CALENDAR -->
+<h2>📅 Monthly Spending Calendar</h2>
 <div id="calendar" class="calendar"></div>
 
-<table id="historyTable">
-    <div class="filter-box">
+<!-- FILTER -->
+<div class="filter-box">
     <input type="text" id="searchInput" placeholder="Search category...">
-
     <select id="filterCategory">
         <option value="all">All Categories</option>
         <option value="Food">Food</option>
@@ -138,28 +135,29 @@
         <option value="Shopping">Shopping</option>
         <option value="Other">Other</option>
     </select>
-
     <button onclick="filterHistory()">Filter</button>
 </div>
-    <h2>📈 Monthly Profit Trend</h2>
-<canvas id="monthlyChart"></canvas>
-<h2>🥧 Expense Categories</h2>
-<canvas id="categoryChart"></canvas>
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Income</th>
-            <th>Expense</th>
-            <th>Profit</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
+
+<!-- HISTORY TABLE -->
+<h2>📜 History</h2>
+<table id="historyTable">
+<thead>
+<tr>
+    <th>Date</th>
+    <th>Income</th>
+    <th>Expense</th>
+    <th>Profit</th>
+    <th>Category</th>
+    <th>Action</th>
+</tr>
+</thead>
+<tbody></tbody>
 </table>
 
-    </div>
-
 </div>
+</div>
+
+<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -167,6 +165,3 @@
 
 </body>
 </html>
-<button onclick="exportExcel()" class="calc-btn">
-Download Excel Report
-</button>
