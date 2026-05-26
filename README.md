@@ -92,5 +92,5 @@ This project is open-source and available under the MIT License.
 
 👨‍💻 Author
 
-Sonu
+Sonu H N
 💡 Passionate about Web Development & Smart Financial Tools
