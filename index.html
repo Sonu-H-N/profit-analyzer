@@ -1,160 +1,884 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profit Dashboard</title>
-
-    <link rel="manifest" href="manifest.json">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FinPro – Personal Finance Dashboard</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
-
 <body>
+<div id="sidebarOverlay" class="sidebar-overlay"></div>
 
+<!-- NOTIFICATION -->
 <div id="notification" class="notification"></div>
 
-<div class="app">
-<div class="card">
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <i class="fa-solid fa-wallet"></i>
+    <span>FinPro</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="#" class="nav-item active" data-page="dashboard">
+      <i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
+    </a>
+    <a href="#" class="nav-item" data-page="transactions">
+      <i class="fa-solid fa-right-left"></i><span>Transactions</span>
+    </a>
+    <a href="#" class="nav-item" data-page="budget">
+      <i class="fa-solid fa-piggy-bank"></i><span>Budget</span>
+    </a>
+    <a href="#" class="nav-item" data-page="goals">
+      <i class="fa-solid fa-bullseye"></i><span>Goals</span>
+    </a>
+    <a href="#" class="nav-item" data-page="analytics">
+      <i class="fa-solid fa-chart-pie"></i><span>Analytics</span>
+    </a>
+    <a href="#" class="nav-item" data-page="calendar">
+      <i class="fa-solid fa-calendar-days"></i><span>Calendar</span>
+    </a>
+    <a href="#" class="nav-item" data-page="reports">
+      <i class="fa-solid fa-file-invoice"></i><span>Reports</span>
+    </a>
+    <a href="#" class="nav-item" data-page="recurring">
+      <i class="fa-solid fa-rotate"></i><span>Recurring</span>
+    </a>
+    <a href="#" class="nav-item" data-page="tools">
+      <i class="fa-solid fa-calculator"></i><span>Tools</span>
+    </a>
+    <a href="#" class="nav-item" data-page="health">
+      <i class="fa-solid fa-heart-pulse"></i><span>Health Score</span>
+    </a>
+    <a href="#" class="nav-item" data-page="settings">
+      <i class="fa-solid fa-gear"></i><span>Settings</span>
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <button id="themeToggle" class="theme-btn">
+      <i class="fa-solid fa-moon"></i><span>Dark Mode</span>
+    </button>
+  </div>
+</aside>
 
-<!-- HEADER -->
-<div class="header">
-    <h1><i class="fa-solid fa-chart-line"></i> Profit Dashboard</h1>
-    <button id="themeToggle"><i class="fa-solid fa-moon"></i></button>
-</div>
+<!-- MOBILE TOP BAR -->
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+  <span class="topbar-title">FinPro</span>
+  <button id="themeToggleMobile" class="icon-btn"><i class="fa-solid fa-moon"></i></button>
+</header>
 
-<!-- SUMMARY -->
-<div class="summary">
+<!-- MAIN CONTENT -->
+<main class="main" id="main">
 
-<div class="card-box income">
-    <h3>Total Income</h3>
-    <p id="totalIncome">₹0</p>
-</div>
-
-<div class="card-box expense">
-    <h3>Total Expense</h3>
-    <p id="totalExpense">₹0</p>
-</div>
-
-<div class="card-box profit">
-    <h3>Total Profit</h3>
-    <p id="totalProfit">₹0</p>
-</div>
-
-<div class="card-box avg">
-    <h3>Avg Profit</h3>
-    <p id="avgProfit">₹0</p>
-</div>
-
-</div>
-
-<!-- GOAL -->
-<div class="goal-box">
-    <h3>🎯 Savings Goal</h3>
-    <input type="number" id="goalInput" placeholder="Enter savings goal">
-    <button onclick="setGoal()" class="calc-btn">Set Goal</button>
-
-    <div class="progress-container">
-        <div id="goalProgress" class="progress-bar"></div>
+  <!-- =================== DASHBOARD =================== -->
+  <section class="page active" id="page-dashboard">
+    <div class="page-header">
+      <div>
+        <h2>Dashboard</h2>
+        <p class="page-subtitle" id="dashGreeting">Good morning! Here's your financial overview.</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-primary" onclick="openModal('addTransactionModal')">
+          <i class="fa-solid fa-plus"></i> Add Entry
+        </button>
+      </div>
     </div>
 
-    <p id="goalText">Progress: 0%</p>
-</div>
+    <!-- SUMMARY CARDS -->
+    <div class="stats-grid">
+      <div class="stat-card income-card">
+        <div class="stat-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+        <div class="stat-info">
+          <span>Total Income</span>
+          <h3 id="totalIncome">₹0</h3>
+          <small id="incomeChange" class="change-text">--</small>
+        </div>
+      </div>
+      <div class="stat-card expense-card">
+        <div class="stat-icon"><i class="fa-solid fa-arrow-trend-down"></i></div>
+        <div class="stat-info">
+          <span>Total Expenses</span>
+          <h3 id="totalExpense">₹0</h3>
+          <small id="expenseChange" class="change-text">--</small>
+        </div>
+      </div>
+      <div class="stat-card profit-card">
+        <div class="stat-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+        <div class="stat-info">
+          <span>Net Profit</span>
+          <h3 id="totalProfit">₹0</h3>
+          <small id="profitChange" class="change-text">--</small>
+        </div>
+      </div>
+      <div class="stat-card avg-card">
+        <div class="stat-icon"><i class="fa-solid fa-chart-simple"></i></div>
+        <div class="stat-info">
+          <span>Avg Profit/Entry</span>
+          <h3 id="avgProfit">₹0</h3>
+          <small id="totalEntries" class="change-text">0 entries</small>
+        </div>
+      </div>
+    </div>
 
-<!-- INPUTS -->
-<div class="input-group">
-    <label>Income</label>
-    <input type="number" id="income" placeholder="Enter income">
-</div>
+    <!-- CHART + RECENT -->
+    <div class="dash-grid">
+      <div class="dash-card chart-card">
+        <div class="card-header">
+          <h3>📈 Income vs Expense</h3>
+          <select id="dashChartFilter" onchange="updateDashChart()">
+            <option value="all">All Time</option>
+            <option value="7">Last 7 Days</option>
+            <option value="30">Last 30 Days</option>
+          </select>
+        </div>
+        <canvas id="dashChart"></canvas>
+      </div>
+      <div class="dash-card">
+        <div class="card-header"><h3>🕐 Recent Transactions</h3></div>
+        <div id="recentList" class="recent-list"></div>
+      </div>
+    </div>
 
-<div class="input-group">
-    <label>Expenses</label>
-    <input type="number" id="expense" placeholder="Enter expenses">
-</div>
+    <!-- INSIGHT CARD -->
+    <div class="insight-card" id="insightBox">
+      <i class="fa-solid fa-lightbulb"></i>
+      <p>💡 Add some transactions to get personalized financial insights.</p>
+    </div>
 
-<div class="input-group">
-    <label>Category</label>
-    <select id="category">
-        <option value="Food">Food</option>
-        <option value="Travel">Travel</option>
-        <option value="Rent">Rent</option>
-        <option value="Shopping">Shopping</option>
-        <option value="Other">Other</option>
-    </select>
-</div>
+    <!-- HEALTH MINI + QUICK ACTIONS -->
+    <div class="dash-grid" style="margin-top:16px">
+      <div class="dash-card">
+        <div class="card-header"><h3>❤️ Financial Health Score</h3><a href="#" class="btn btn-sm btn-outline" onclick="navigateTo('health');return false;">Details →</a></div>
+        <div class="health-mini" id="healthMini">
+          <div class="health-ring-wrap">
+            <svg viewBox="0 0 120 120" class="health-ring">
+              <circle cx="60" cy="60" r="50" fill="none" stroke="var(--bg3)" stroke-width="10"/>
+              <circle id="healthArc" cx="60" cy="60" r="50" fill="none" stroke="var(--green)" stroke-width="10"
+                stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round"
+                transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1s ease"/>
+            </svg>
+            <div class="health-score-center"><span id="healthScoreNum">0</span><small>/ 100</small></div>
+          </div>
+          <div class="health-mini-labels" id="healthMiniLabels"></div>
+        </div>
+      </div>
+      <div class="dash-card">
+        <div class="card-header"><h3>⚡ Quick Actions</h3></div>
+        <div class="quick-actions">
+          <button class="qa-btn" onclick="openModal('addTransactionModal'); setType('income')">
+            <i class="fa-solid fa-plus-circle"></i><span>Add Income</span>
+          </button>
+          <button class="qa-btn" onclick="openModal('addTransactionModal'); setType('expense')">
+            <i class="fa-solid fa-minus-circle"></i><span>Add Expense</span>
+          </button>
+          <button class="qa-btn" onclick="navigateTo('tools')">
+            <i class="fa-solid fa-calculator"></i><span>EMI Calc</span>
+          </button>
+          <button class="qa-btn" onclick="navigateTo('recurring')">
+            <i class="fa-solid fa-rotate"></i><span>Recurring</span>
+          </button>
+          <button class="qa-btn" onclick="downloadPDF()">
+            <i class="fa-solid fa-file-pdf"></i><span>Export PDF</span>
+          </button>
+          <button class="qa-btn" onclick="navigateTo('goals')">
+            <i class="fa-solid fa-bullseye"></i><span>My Goals</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<div class="input-group">
-    <label>Monthly Budget</label>
-    <input type="number" id="budget" placeholder="Enter monthly budget">
-</div>
+  <!-- =================== TRANSACTIONS =================== -->
+  <section class="page" id="page-transactions">
+    <div class="page-header">
+      <div><h2>Transactions</h2><p class="page-subtitle">All your income & expense entries</p></div>
+      <button class="btn btn-primary" onclick="openModal('addTransactionModal')">
+        <i class="fa-solid fa-plus"></i> Add Entry
+      </button>
+    </div>
 
-<button class="calc-btn" onclick="calculate()">Calculate</button>
-
-<button class="calc-btn" onclick="downloadPDF()">
-    <i class="fa-solid fa-download"></i> Download PDF
-</button>
-
-<button onclick="exportExcel()" class="calc-btn">
-    Download Excel
-</button>
-
-<!-- RESULT -->
-<div class="loader" id="loader"></div>
-<div id="budgetAlert" class="alert-box"></div>
-<div class="result" id="result"></div>
-
-<!-- INSIGHTS -->
-<div id="insightBox" class="insight-box">
-💡 Financial insights will appear here
-</div>
-
-<!-- CHARTS -->
-<canvas id="profitChart"></canvas>
-
-<h2>📈 Monthly Profit Trend</h2>
-<canvas id="monthlyChart"></canvas>
-
-<h2>🥧 Expense Categories</h2>
-<canvas id="categoryChart"></canvas>
-
-<!-- CALENDAR -->
-<h2>📅 Monthly Spending Calendar</h2>
-<div id="calendar" class="calendar"></div>
-
-<!-- FILTER -->
-<div class="filter-box">
-    <input type="text" id="searchInput" placeholder="Search category...">
-    <select id="filterCategory">
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Search by note or category..." oninput="filterHistory()"/>
+      </div>
+      <select id="filterCategory" onchange="filterHistory()">
         <option value="all">All Categories</option>
         <option value="Food">Food</option>
         <option value="Travel">Travel</option>
         <option value="Rent">Rent</option>
         <option value="Shopping">Shopping</option>
+        <option value="Salary">Salary</option>
+        <option value="Freelance">Freelance</option>
+        <option value="Investment">Investment</option>
+        <option value="Medical">Medical</option>
+        <option value="Entertainment">Entertainment</option>
         <option value="Other">Other</option>
-    </select>
-    <button onclick="filterHistory()">Filter</button>
+      </select>
+      <select id="filterType" onchange="filterHistory()">
+        <option value="all">All Types</option>
+        <option value="income">Income Only</option>
+        <option value="expense">Expense Only</option>
+      </select>
+      <select id="filterMonth" onchange="filterHistory()">
+        <option value="all">All Months</option>
+      </select>
+      <button class="btn btn-outline" onclick="clearFilters()"><i class="fa-solid fa-xmark"></i> Clear</button>
+      <button class="btn btn-outline" onclick="copyTableToClipboard()"><i class="fa-solid fa-clipboard"></i> Copy</button>
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="filter-stats" id="filterStats">Showing all transactions</div>
+
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <table id="historyTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable('date')">Date <i class="fa-solid fa-sort"></i></th>
+            <th onclick="sortTable('income')">Income <i class="fa-solid fa-sort"></i></th>
+            <th onclick="sortTable('expense')">Expense <i class="fa-solid fa-sort"></i></th>
+            <th onclick="sortTable('profit')">Profit <i class="fa-solid fa-sort"></i></th>
+            <th>Category</th>
+            <th>Note</th>
+            <th>Type</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+      <div id="emptyState" class="empty-state" style="display:none">
+        <i class="fa-solid fa-inbox"></i>
+        <p>No transactions found</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== BUDGET =================== -->
+  <section class="page" id="page-budget">
+    <div class="page-header">
+      <div><h2>Budget Manager</h2><p class="page-subtitle">Set and track category budgets</p></div>
+      <button class="btn btn-primary" onclick="openModal('addBudgetModal')">
+        <i class="fa-solid fa-plus"></i> Add Budget
+      </button>
+    </div>
+
+    <div class="budget-overview">
+      <div class="budget-stat">
+        <span>Total Budget</span>
+        <h3 id="totalBudgetAmt">₹0</h3>
+      </div>
+      <div class="budget-stat">
+        <span>Total Spent</span>
+        <h3 id="totalSpentAmt">₹0</h3>
+      </div>
+      <div class="budget-stat">
+        <span>Remaining</span>
+        <h3 id="totalRemainingAmt">₹0</h3>
+      </div>
+    </div>
+
+    <div id="budgetList" class="budget-list"></div>
+  </section>
+
+  <!-- =================== GOALS =================== -->
+  <section class="page" id="page-goals">
+    <div class="page-header">
+      <div><h2>Savings Goals</h2><p class="page-subtitle">Track your financial targets</p></div>
+      <button class="btn btn-primary" onclick="openModal('addGoalModal')">
+        <i class="fa-solid fa-plus"></i> New Goal
+      </button>
+    </div>
+    <div id="goalList" class="goal-list"></div>
+    <div id="noGoals" class="empty-state">
+      <i class="fa-solid fa-bullseye"></i>
+      <p>No goals yet. Add one to start saving!</p>
+    </div>
+  </section>
+
+  <!-- =================== ANALYTICS =================== -->
+  <section class="page" id="page-analytics">
+    <div class="page-header">
+      <div><h2>Analytics</h2><p class="page-subtitle">Deep dive into your finances</p></div>
+    </div>
+    <div class="analytics-grid">
+      <div class="analytics-card">
+        <h3>🥧 Expense by Category</h3>
+        <canvas id="categoryChart"></canvas>
+      </div>
+      <div class="analytics-card">
+        <h3>📊 Monthly Profit Trend</h3>
+        <canvas id="monthlyChart"></canvas>
+      </div>
+      <div class="analytics-card">
+        <h3>💰 Income vs Expense (Monthly)</h3>
+        <canvas id="incomeExpenseBar"></canvas>
+      </div>
+      <div class="analytics-card">
+        <h3>📉 Savings Rate %</h3>
+        <canvas id="savingsRateChart"></canvas>
+      </div>
+    </div>
+    <!-- TOP CATEGORIES TABLE -->
+    <div class="analytics-card full-width">
+      <h3>🏆 Top Spending Categories</h3>
+      <table class="mini-table">
+        <thead><tr><th>Category</th><th>Amount</th><th>% of Total</th><th>Trend</th></tr></thead>
+        <tbody id="topCatBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =================== CALENDAR =================== -->
+  <section class="page" id="page-calendar">
+    <div class="page-header">
+      <div><h2>Spending Calendar</h2><p class="page-subtitle">View expenses day by day</p></div>
+      <div class="cal-nav">
+        <button class="btn btn-outline" onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+        <span id="calMonthLabel">Month Year</span>
+        <button class="btn btn-outline" onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+    <div class="cal-legend">
+      <span class="leg low">Low (₹1–1000)</span>
+      <span class="leg medium">Medium (₹1001–3000)</span>
+      <span class="leg high">High (₹3000+)</span>
+    </div>
+    <div class="calendar-grid">
+      <div class="cal-day-label">Sun</div>
+      <div class="cal-day-label">Mon</div>
+      <div class="cal-day-label">Tue</div>
+      <div class="cal-day-label">Wed</div>
+      <div class="cal-day-label">Thu</div>
+      <div class="cal-day-label">Fri</div>
+      <div class="cal-day-label">Sat</div>
+    </div>
+    <div id="calendarBody" class="calendar-grid"></div>
+    <div class="cal-summary" id="calSummary"></div>
+  </section>
+
+  <!-- =================== REPORTS =================== -->
+  <section class="page" id="page-reports">
+    <div class="page-header">
+      <div><h2>Reports & Export</h2><p class="page-subtitle">Download your financial data</p></div>
+    </div>
+    <div class="reports-grid">
+      <div class="report-card">
+        <div class="report-icon"><i class="fa-solid fa-file-pdf"></i></div>
+        <h3>PDF Report</h3>
+        <p>Full transaction history with totals in a professional PDF format.</p>
+        <button class="btn btn-primary" onclick="downloadPDF()">
+          <i class="fa-solid fa-download"></i> Download PDF
+        </button>
+      </div>
+      <div class="report-card">
+        <div class="report-icon"><i class="fa-solid fa-file-excel"></i></div>
+        <h3>Excel Export</h3>
+        <p>Export all data to Excel for further analysis.</p>
+        <button class="btn btn-primary" onclick="exportExcel()">
+          <i class="fa-solid fa-download"></i> Download Excel
+        </button>
+      </div>
+      <div class="report-card">
+        <div class="report-icon"><i class="fa-solid fa-file-code"></i></div>
+        <h3>JSON Backup</h3>
+        <p>Backup your data as JSON. Restore it anytime.</p>
+        <button class="btn btn-primary" onclick="exportJSON()">
+          <i class="fa-solid fa-download"></i> Export JSON
+        </button>
+      </div>
+      <div class="report-card">
+        <div class="report-icon"><i class="fa-solid fa-upload"></i></div>
+        <h3>Import Data</h3>
+        <p>Restore from a previously exported JSON backup.</p>
+        <input type="file" id="importFile" accept=".json" onchange="importJSON(event)" style="display:none"/>
+        <button class="btn btn-outline" onclick="document.getElementById('importFile').click()">
+          <i class="fa-solid fa-upload"></i> Import JSON
+        </button>
+      </div>
+    </div>
+
+    <!-- CSV IMPORT -->
+    <div class="report-card" style="grid-column:1/-1;display:flex;align-items:center;gap:20px;text-align:left;padding:20px 24px">
+      <div class="report-icon" style="font-size:32px;margin:0">📥</div>
+      <div style="flex:1">
+        <h3 style="margin-bottom:4px">Import CSV</h3>
+        <p style="margin:0;font-size:13px;color:var(--text2)">Import transactions from a CSV file with columns: date, type, amount, category, note</p>
+      </div>
+      <div>
+        <input type="file" id="importCSV" accept=".csv" onchange="importCSV(event)" style="display:none"/>
+        <button class="btn btn-outline" onclick="document.getElementById('importCSV').click()">
+          <i class="fa-solid fa-file-csv"></i> Import CSV
+        </button>
+        <button class="btn btn-outline" style="margin-left:8px" onclick="downloadCSVTemplate()">
+          <i class="fa-solid fa-download"></i> Template
+        </button>
+      </div>
+    </div>
+
+    <!-- SUMMARY REPORT -->
+    <div class="report-summary-card">
+      <h3>📊 Summary Report</h3>
+      <div id="summaryReport"></div>
+    </div>
+
+    <!-- MONTHLY COMPARISON -->
+    <div class="report-summary-card" style="margin-top:16px">
+      <h3>📅 Month-over-Month Comparison</h3>
+      <div id="monthComparison" class="month-comparison"></div>
+    </div>
+
+    <!-- SPENDING STREAKS -->
+    <div class="report-summary-card" style="margin-top:16px">
+      <h3>🔥 Spending Streaks & Milestones</h3>
+      <div id="streakSection" class="streak-section"></div>
+    </div>
+  </section>
+
+  <!-- =================== SETTINGS =================== -->
+  <section class="page" id="page-settings">
+    <div class="page-header">
+      <div><h2>Settings</h2><p class="page-subtitle">Customize your experience</p></div>
+    </div>
+    <div class="settings-grid">
+      <div class="settings-card">
+        <h3><i class="fa-solid fa-user"></i> Profile</h3>
+        <div class="input-group">
+          <label>Your Name</label>
+          <input type="text" id="userName" placeholder="Enter your name" oninput="saveSetting('userName', this.value)"/>
+        </div>
+        <div class="input-group">
+          <label>Currency Symbol</label>
+          <select id="currencySymbol" onchange="saveSetting('currencySymbol', this.value); refreshAll()">
+            <option value="₹">₹ Indian Rupee</option>
+            <option value="$">$ US Dollar</option>
+            <option value="€">€ Euro</option>
+            <option value="£">£ Pound</option>
+            <option value="¥">¥ Yen</option>
+          </select>
+        </div>
+      </div>
+      <div class="settings-card">
+        <h3><i class="fa-solid fa-bell"></i> Notifications</h3>
+        <div class="toggle-row">
+          <span>Budget Alerts</span>
+          <label class="toggle"><input type="checkbox" id="notifBudget" checked onchange="saveSetting('notifBudget', this.checked)"/><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span>Goal Milestones</span>
+          <label class="toggle"><input type="checkbox" id="notifGoal" checked onchange="saveSetting('notifGoal', this.checked)"/><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <span>Spending Insights</span>
+          <label class="toggle"><input type="checkbox" id="notifInsight" checked onchange="saveSetting('notifInsight', this.checked)"/><span class="slider"></span></label>
+        </div>
+      </div>
+      <div class="settings-card">
+        <h3><i class="fa-solid fa-sliders"></i> Preferences</h3>
+        <div class="input-group">
+          <label>Default Transaction Type</label>
+          <select id="defaultType" onchange="saveSetting('defaultType', this.value)">
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>Default Category</label>
+          <select id="defaultCategory" onchange="saveSetting('defaultCategory', this.value)">
+            <option value="Food">🍔 Food</option>
+            <option value="Travel">✈️ Travel</option>
+            <option value="Rent">🏠 Rent</option>
+            <option value="Shopping">🛍️ Shopping</option>
+            <option value="Salary">💼 Salary</option>
+            <option value="Other">📦 Other</option>
+          </select>
+        </div>
+        <div class="toggle-row">
+          <span>Compact Table View</span>
+          <label class="toggle"><input type="checkbox" id="compactView" onchange="saveSetting('compactView', this.checked); applyCompactView()"/><span class="slider"></span></label>
+        </div>
+      </div>
+      <div class="settings-card danger-card">
+        <h3><i class="fa-solid fa-trash"></i> Data Management</h3>
+        <p>Clear all stored transactions, budgets, and goals. This cannot be undone.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-danger" onclick="clearAllData()">
+            <i class="fa-solid fa-trash"></i> Clear All Data
+          </button>
+          <button class="btn btn-outline" onclick="loadSampleData()">
+            <i class="fa-solid fa-database"></i> Load Sample Data
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO USE -->
+    <div class="howto-card" style="margin-top:20px">
+      <h3>📖 How to Use FinPro</h3>
+      <div class="howto-grid">
+        <div class="howto-step"><div class="howto-num">1</div><div><strong>Add Transactions</strong><p>Click "Add Entry" on the Dashboard or Transactions page. Choose Income or Expense, enter amount, pick a category and date.</p></div></div>
+        <div class="howto-step"><div class="howto-num">2</div><div><strong>Set Budgets</strong><p>Go to Budget page and set monthly limits per category. You'll get alerts when approaching or exceeding limits.</p></div></div>
+        <div class="howto-step"><div class="howto-num">3</div><div><strong>Create Goals</strong><p>Go to Goals and set savings targets with deadlines. Your net profit is tracked toward each goal automatically.</p></div></div>
+        <div class="howto-step"><div class="howto-num">4</div><div><strong>Add Recurring Entries</strong><p>Track monthly subscriptions, EMIs, and regular income on the Recurring page. Hit ✓ to log when paid.</p></div></div>
+        <div class="howto-step"><div class="howto-num">5</div><div><strong>Use Tools</strong><p>Calculate EMIs, estimate taxes, plan SIPs and FDs on the Tools page.</p></div></div>
+        <div class="howto-step"><div class="howto-num">6</div><div><strong>Export Reports</strong><p>Download PDF, Excel, or JSON backups from the Reports page. You can also import data back.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- =================== MODALS =================== -->
+
+<!-- ADD TRANSACTION MODAL -->
+<div class="modal-overlay" id="addTransactionModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Add Transaction</h3>
+      <button class="modal-close" onclick="closeModal('addTransactionModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editIndex" value="-1"/>
+      <div class="type-toggle">
+        <button class="type-btn active" id="typeIncome" onclick="setType('income')">
+          <i class="fa-solid fa-plus"></i> Income
+        </button>
+        <button class="type-btn" id="typeExpense" onclick="setType('expense')">
+          <i class="fa-solid fa-minus"></i> Expense
+        </button>
+      </div>
+      <div class="input-group">
+        <label>Amount (₹)</label>
+        <input type="number" id="amount" placeholder="0.00" min="0"/>
+      </div>
+      <div class="input-group">
+        <label>Category</label>
+        <select id="category">
+          <option value="Food">🍔 Food</option>
+          <option value="Travel">✈️ Travel</option>
+          <option value="Rent">🏠 Rent</option>
+          <option value="Shopping">🛍️ Shopping</option>
+          <option value="Salary">💼 Salary</option>
+          <option value="Freelance">💻 Freelance</option>
+          <option value="Investment">📈 Investment</option>
+          <option value="Medical">🏥 Medical</option>
+          <option value="Entertainment">🎮 Entertainment</option>
+          <option value="Other">📦 Other</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Note (optional)</label>
+        <input type="text" id="noteInput" placeholder="e.g. Monthly rent, Grocery run..."/>
+      </div>
+      <div class="input-group">
+        <label>Date</label>
+        <input type="date" id="dateInput"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addTransactionModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveTransaction()">Save Transaction</button>
+    </div>
+  </div>
 </div>
 
-<!-- HISTORY TABLE -->
-<h2>📜 History</h2>
-<table id="historyTable">
-<thead>
-<tr>
-    <th>Date</th>
-    <th>Income</th>
-    <th>Expense</th>
-    <th>Profit</th>
-    <th>Category</th>
-    <th>Action</th>
-</tr>
-</thead>
-<tbody></tbody>
-</table>
-
+<!-- ADD BUDGET MODAL -->
+<div class="modal-overlay" id="addBudgetModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Set Category Budget</h3>
+      <button class="modal-close" onclick="closeModal('addBudgetModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="input-group">
+        <label>Category</label>
+        <select id="budgetCategory">
+          <option value="Food">🍔 Food</option>
+          <option value="Travel">✈️ Travel</option>
+          <option value="Rent">🏠 Rent</option>
+          <option value="Shopping">🛍️ Shopping</option>
+          <option value="Medical">🏥 Medical</option>
+          <option value="Entertainment">🎮 Entertainment</option>
+          <option value="Other">📦 Other</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Monthly Budget Amount (₹)</label>
+        <input type="number" id="budgetAmount" placeholder="Enter budget limit" min="0"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addBudgetModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveBudget()">Save Budget</button>
+    </div>
+  </div>
 </div>
+
+<!-- ADD GOAL MODAL -->
+<div class="modal-overlay" id="addGoalModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>New Savings Goal</h3>
+      <button class="modal-close" onclick="closeModal('addGoalModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="input-group">
+        <label>Goal Name</label>
+        <input type="text" id="goalName" placeholder="e.g. New Laptop, Emergency Fund..."/>
+      </div>
+      <div class="input-group">
+        <label>Target Amount (₹)</label>
+        <input type="number" id="goalTarget" placeholder="Enter target amount" min="0"/>
+      </div>
+      <div class="input-group">
+        <label>Target Date (optional)</label>
+        <input type="date" id="goalDate"/>
+      </div>
+      <div class="input-group">
+        <label>Icon</label>
+        <select id="goalIcon">
+          <option value="🎯">🎯 Target</option>
+          <option value="💻">💻 Laptop / Tech</option>
+          <option value="🏠">🏠 Home</option>
+          <option value="✈️">✈️ Trip</option>
+          <option value="🚗">🚗 Vehicle</option>
+          <option value="📚">📚 Education</option>
+          <option value="💰">💰 Savings</option>
+          <option value="🏥">🏥 Emergency</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addGoalModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveGoal()">Save Goal</button>
+    </div>
+  </div>
+</div>
+
+
+  <!-- =================== RECURRING =================== -->
+  <section class="page" id="page-recurring">
+    <div class="page-header">
+      <div><h2>Recurring Transactions</h2><p class="page-subtitle">Auto-track subscriptions, EMIs & regular income</p></div>
+      <button class="btn btn-primary" onclick="openModal('addRecurringModal')">
+        <i class="fa-solid fa-plus"></i> Add Recurring
+      </button>
+    </div>
+    <div class="recurring-due-banner" id="recurringDueBanner" style="display:none"></div>
+    <div id="recurringList" class="recurring-list"></div>
+    <div id="noRecurring" class="empty-state">
+      <i class="fa-solid fa-rotate"></i>
+      <p>No recurring entries yet. Add subscriptions, EMIs or monthly income.</p>
+    </div>
+  </section>
+
+  <!-- =================== TOOLS =================== -->
+  <section class="page" id="page-tools">
+    <div class="page-header">
+      <div><h2>Financial Tools</h2><p class="page-subtitle">Calculators to help plan your finances</p></div>
+    </div>
+    <div class="tools-grid">
+
+      <!-- EMI CALCULATOR -->
+      <div class="tool-card">
+        <h3><i class="fa-solid fa-building-columns"></i> EMI Calculator</h3>
+        <div class="input-group">
+          <label>Loan Amount (₹)</label>
+          <input type="number" id="loanAmt" placeholder="e.g. 500000" oninput="calcEMI()"/>
+        </div>
+        <div class="input-group">
+          <label>Annual Interest Rate (%)</label>
+          <input type="number" id="loanRate" placeholder="e.g. 8.5" step="0.1" oninput="calcEMI()"/>
+        </div>
+        <div class="input-group">
+          <label>Tenure (Months)</label>
+          <input type="number" id="loanTenure" placeholder="e.g. 60" oninput="calcEMI()"/>
+        </div>
+        <div class="tool-result" id="emiResult" style="display:none">
+          <div class="tool-result-row"><span>Monthly EMI</span><strong id="emiAmt">—</strong></div>
+          <div class="tool-result-row"><span>Total Interest</span><strong id="emiInterest">—</strong></div>
+          <div class="tool-result-row"><span>Total Payment</span><strong id="emiTotal">—</strong></div>
+        </div>
+        <canvas id="emiChart" style="margin-top:16px;max-height:200px"></canvas>
+        <button class="btn btn-primary" style="margin-top:14px;width:100%" onclick="addEMIToTransactions()">
+          <i class="fa-solid fa-plus"></i> Add EMI as Recurring
+        </button>
+      </div>
+
+      <!-- TAX ESTIMATOR (India - New Regime) -->
+      <div class="tool-card">
+        <h3><i class="fa-solid fa-receipt"></i> Tax Estimator (India)</h3>
+        <div class="input-group">
+          <label>Annual Income (₹)</label>
+          <input type="number" id="taxIncome" placeholder="e.g. 800000" oninput="calcTax()"/>
+        </div>
+        <div class="input-group">
+          <label>Tax Regime</label>
+          <select id="taxRegime" onchange="calcTax()">
+            <option value="new">New Regime (2024-25)</option>
+            <option value="old">Old Regime</option>
+          </select>
+        </div>
+        <div class="input-group" id="deductionRow">
+          <label>Deductions u/s 80C etc. (₹)</label>
+          <input type="number" id="taxDeductions" placeholder="e.g. 150000" oninput="calcTax()"/>
+        </div>
+        <div class="tool-result" id="taxResult" style="display:none">
+          <div class="tool-result-row"><span>Taxable Income</span><strong id="taxableIncome">—</strong></div>
+          <div class="tool-result-row"><span>Income Tax</span><strong id="taxAmt">—</strong></div>
+          <div class="tool-result-row"><span>Effective Rate</span><strong id="taxRate">—</strong></div>
+          <div class="tool-result-row"><span>Monthly Take-Home</span><strong id="taxTakeHome">—</strong></div>
+        </div>
+        <canvas id="taxChart" style="margin-top:16px;max-height:200px"></canvas>
+      </div>
+
+      <!-- SIP CALCULATOR -->
+      <div class="tool-card">
+        <h3><i class="fa-solid fa-chart-line"></i> SIP Calculator</h3>
+        <div class="input-group">
+          <label>Monthly Investment (₹)</label>
+          <input type="number" id="sipAmt" placeholder="e.g. 5000" oninput="calcSIP()"/>
+        </div>
+        <div class="input-group">
+          <label>Expected Annual Return (%)</label>
+          <input type="number" id="sipReturn" placeholder="e.g. 12" step="0.1" oninput="calcSIP()"/>
+        </div>
+        <div class="input-group">
+          <label>Duration (Years)</label>
+          <input type="number" id="sipYears" placeholder="e.g. 10" oninput="calcSIP()"/>
+        </div>
+        <div class="tool-result" id="sipResult" style="display:none">
+          <div class="tool-result-row"><span>Total Invested</span><strong id="sipInvested">—</strong></div>
+          <div class="tool-result-row"><span>Estimated Returns</span><strong id="sipReturns">—</strong></div>
+          <div class="tool-result-row"><span>Maturity Amount</span><strong id="sipMaturity">—</strong></div>
+        </div>
+        <canvas id="sipChart" style="margin-top:16px;max-height:200px"></canvas>
+      </div>
+
+      <!-- SIMPLE INTEREST / FD -->
+      <div class="tool-card">
+        <h3><i class="fa-solid fa-percent"></i> FD / Interest Calculator</h3>
+        <div class="input-group">
+          <label>Principal Amount (₹)</label>
+          <input type="number" id="fdPrincipal" placeholder="e.g. 100000" oninput="calcFD()"/>
+        </div>
+        <div class="input-group">
+          <label>Annual Interest Rate (%)</label>
+          <input type="number" id="fdRate" placeholder="e.g. 6.5" step="0.1" oninput="calcFD()"/>
+        </div>
+        <div class="input-group">
+          <label>Duration (Years)</label>
+          <input type="number" id="fdYears" placeholder="e.g. 3" step="0.5" oninput="calcFD()"/>
+        </div>
+        <div class="input-group">
+          <label>Compounding</label>
+          <select id="fdComp" onchange="calcFD()">
+            <option value="1">Annually</option>
+            <option value="2">Half-Yearly</option>
+            <option value="4">Quarterly</option>
+            <option value="12">Monthly</option>
+          </select>
+        </div>
+        <div class="tool-result" id="fdResult" style="display:none">
+          <div class="tool-result-row"><span>Interest Earned</span><strong id="fdInterest">—</strong></div>
+          <div class="tool-result-row"><span>Maturity Amount</span><strong id="fdMaturity">—</strong></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =================== HEALTH SCORE =================== -->
+  <section class="page" id="page-health">
+    <div class="page-header">
+      <div><h2>Financial Health Score</h2><p class="page-subtitle">How healthy are your finances?</p></div>
+    </div>
+    <div class="health-grid">
+      <div class="health-score-card">
+        <div class="health-ring-wrap large">
+          <svg viewBox="0 0 200 200" class="health-ring large">
+            <circle cx="100" cy="100" r="85" fill="none" stroke="var(--bg3)" stroke-width="14"/>
+            <circle id="healthArcLarge" cx="100" cy="100" r="85" fill="none" stroke="var(--green)" stroke-width="14"
+              stroke-dasharray="534" stroke-dashoffset="534" stroke-linecap="round"
+              transform="rotate(-90 100 100)" style="transition:stroke-dashoffset 1.2s ease"/>
+          </svg>
+          <div class="health-score-center large">
+            <span id="healthScoreLarge">0</span>
+            <small>/ 100</small>
+            <div id="healthGrade" class="health-grade">—</div>
+          </div>
+        </div>
+        <p id="healthSummaryText" style="text-align:center;color:var(--text2);font-size:13px;margin-top:12px">Add transactions to calculate your score.</p>
+      </div>
+      <div class="health-factors-card">
+        <h3>Score Breakdown</h3>
+        <div id="healthFactors" class="health-factors"></div>
+      </div>
+    </div>
+    <div class="health-tips-card">
+      <h3>💡 Personalized Tips</h3>
+      <div id="healthTips" class="health-tips"></div>
+    </div>
+  </section>
+
+
+<!-- RECURRING MODAL -->
+<div class="modal-overlay" id="addRecurringModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Add Recurring Entry</h3>
+      <button class="modal-close" onclick="closeModal('addRecurringModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="type-toggle">
+        <button class="type-btn active income-active" id="recTypeIncome" onclick="setRecType('income')"><i class="fa-solid fa-plus"></i> Income</button>
+        <button class="type-btn" id="recTypeExpense" onclick="setRecType('expense')"><i class="fa-solid fa-minus"></i> Expense</button>
+      </div>
+      <div class="input-group">
+        <label>Name</label>
+        <input type="text" id="recName" placeholder="e.g. Netflix, Salary, EMI..."/>
+      </div>
+      <div class="input-group">
+        <label>Amount (₹)</label>
+        <input type="number" id="recAmount" placeholder="0.00" min="0"/>
+      </div>
+      <div class="input-group">
+        <label>Category</label>
+        <select id="recCategory">
+          <option value="Food">🍔 Food</option>
+          <option value="Travel">✈️ Travel</option>
+          <option value="Rent">🏠 Rent</option>
+          <option value="Shopping">🛍️ Shopping</option>
+          <option value="Salary">💼 Salary</option>
+          <option value="Freelance">💻 Freelance</option>
+          <option value="Investment">📈 Investment</option>
+          <option value="Medical">🏥 Medical</option>
+          <option value="Entertainment">🎮 Entertainment</option>
+          <option value="Other">📦 Other</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Frequency</label>
+        <select id="recFreq">
+          <option value="monthly">Monthly</option>
+          <option value="weekly">Weekly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label>Next Due Date</label>
+        <input type="date" id="recDueDate"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('addRecurringModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRecurring()">Save</button>
+    </div>
+  </div>
 </div>
 
 <!-- SCRIPTS -->
@@ -162,6 +886,5 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="script.js"></script>
-
 </body>
 </html>
