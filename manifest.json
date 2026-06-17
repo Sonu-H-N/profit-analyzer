@@ -1,9 +1,35 @@
 {
-  "name": "FinPro – Finance Dashboard",
+  "name": "FinPro – Personal Finance Dashboard",
   "short_name": "FinPro",
-  "start_url": "/index.html",
+  "description": "Track income, expenses, budgets, goals and get financial insights — all in your browser.",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#0f1117",
   "theme_color": "#6c63ff",
-  "icons": [{"src": "icon.png", "sizes": "192x192", "type": "image/png"}]
+  "categories": ["finance", "productivity"],
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Add Transaction",
+      "short_name": "Add",
+      "description": "Quickly add a new income or expense entry",
+      "url": "./index.html#dashboard",
+      "icons": [{ "src": "icon.png", "sizes": "192x192" }]
+    }
+  ]
 }
