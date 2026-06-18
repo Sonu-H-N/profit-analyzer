@@ -401,12 +401,14 @@ function updateDashChart() {
 }
 
 function chartOpts(extra={}) {
+  const tick = getTickColor();
+  const grid = getGridColor();
   return {
     responsive: true,
-    plugins: { legend: { labels: { color: '#9198b5', font:{size:12} } }, ...extra.plugins },
+    plugins: { legend: { labels: { color: tick, font:{size:12} } }, ...(extra.plugins||{}) },
     scales: {
-      x: { ticks:{color:'#9198b5'}, grid:{color:'rgba(255,255,255,0.04)'} },
-      y: { ticks:{color:'#9198b5'}, grid:{color:'rgba(255,255,255,0.04)'} }
+      x: { ticks:{color:tick}, grid:{color:grid} },
+      y: { ticks:{color:tick}, grid:{color:grid} }
     },
     ...extra
   };
@@ -1515,8 +1517,11 @@ function colorBadges() {
 }
 
 // ─── PATCH renderHistory to call colorBadges ─────────────────
-const _rh = renderHistory;
-renderHistory = function(d) { _rh(d); setTimeout(colorBadges, 50); };
+// Wrap renderHistory to apply color badges after every render
+(function() {
+  const _rh = renderHistory;
+  renderHistory = function(d) { _rh(d); setTimeout(colorBadges, 50); };
+})();
 
 // ─── CHART DARK/LIGHT AWARE GRID COLORS ──────────────────────
 function getGridColor() {
@@ -1581,11 +1586,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ─── FINAL INIT ADDITIONS ────────────────────────────────────
-const _origBoot = refreshAll;
-refreshAll = function() {
-  _origBoot();
-  updateNavBadges();
-};
+(function() {
+  const _orig = refreshAll;
+  refreshAll = function() {
+    _orig();
+    updateNavBadges();
+  };
+})();
 
 document.addEventListener('DOMContentLoaded', () => {
   checkFirstVisit();
